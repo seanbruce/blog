@@ -58,3 +58,4 @@ typings/
 .env
 
 *.jpg
+*.woff2

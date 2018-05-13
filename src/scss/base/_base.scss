@@ -1,3 +1,11 @@
+@font-face {
+  font: {
+    family: myFonts;
+    weight: normal;
+  };
+  src: url('../assets/fonts/PingFangSC-Regular.woff2');
+}
+
 *,
 *::before,
 *::after {
@@ -6,6 +14,11 @@
     box-sizing: inherit;
 }
 
-body {
+html {
     box-sizing: border-box;
+    font-size: 125%;  // 20px / 16px = 1.25 = 125%
+}
+
+body {
+  font-family: myFonts;
 }
