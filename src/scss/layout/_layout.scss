@@ -1,0 +1,14 @@
+body {
+    // background-color: var(--color-body-background);
+    background-image: linear-gradient(to bottom, var(--color-primary), var(--color-primary-dark));
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.container {
+    max-width: 62.6rem;
+    margin: 2.75rem auto;
+    background-color: var(--color-container-background);
+    box-shadow: var(--shadow-dark);
+    min-height: 100vh;
+}
