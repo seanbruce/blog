@@ -15,7 +15,7 @@
             </form>
         </div>
         <nav class="header__items--right">
-            <router-link to="/" class="header__nav__button" tag="div">
+            <router-link to="/" class="header__nav__button active" tag="div">
                 <span class="button__text">主页</span>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                     <title>home</title>
@@ -103,6 +103,7 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
+
                     &__input {
                         background-color: var(--color-grey-light-2);
                         font-family: inherit;
@@ -162,17 +163,56 @@
 
                     position: relative;
 
+                    
+                    &.active {
+                        background-color: var(--color-grey-light-3);
+                    }
+
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        width: 100%;
+                        height: 3px;
+                        background-color: var(--color-primary);
+                        transform: scaleX(0);
+
+                        transition: transform .2s cubic-bezier(0.860, 0.000, 0.070, 1.000); 
+                    }
+                    &:hover::before {
+                        transform: scaleX(1);
+                        // height: 100%;
+                       
+                    }
+
                     &:last-child {
                         padding: 0 0 0 0.5rem;
                     }
 
+                    &:not(:last-child) {
+                        margin-right: 2px;
+                    }
+
                     &:hover {
                         background-color: var(--color-grey-light-2);
+                        //  .button__text {
+                        //     color: #FFF;
+                        //     transform: scale(1.2);
+                        // }
+                        // svg {
+                        //     fill: #FFF;
+                        //     transform: scale(1.2);
+                        // }
                     }
 
                     .button__text {
+                        position: relative;
                         font-size: 0.8rem;
                         margin-right: 3px;
+                        color: var(--color-grey-dark-1);
+                        // transition: all 1ms .4s;
                     }
 
                     .cart__notification {
@@ -194,9 +234,12 @@
                     }
 
                     svg {
+                        position: relative;
                         width: 0.7rem;
                         height: 0.7rem;
                         fill: var(--color-primary-dark-1);
+
+                        // transition: all 1ms .4s;
                     }
                     &:last-child {
                         margin-right: 1.5rem;
