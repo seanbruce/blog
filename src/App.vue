@@ -1,11 +1,11 @@
 <template>
-  <div id="app">
+  <v-app>
     <div class="container">
         <app-header @toggleSignup="showSignup = !showSignup"></app-header>
         <router-view></router-view>
         <app-signup v-if="showSignup"  @toggleSignup="toggleSignup"></app-signup>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>

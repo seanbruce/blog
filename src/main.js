@@ -1,6 +1,9 @@
+// import 'vuetify/dist/vuetify.min.css'
 import './scss/main.scss'
 import Vue from 'vue'
 import App from './App.vue'
+
+// import Vuetify from 'vuetify'
 
 import VueRouter from 'vue-router'
 import router from './routes'
@@ -23,6 +26,7 @@ const responseInterceptor = axios.interceptors.response.use( res => {
 axios.interceptors.request.eject(requestInterceptor)
 axios.interceptors.response.eject(responseInterceptor)
 
+// Vue.use(Vuetify)
 
 new Vue({
   el: '#app',
