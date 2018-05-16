@@ -1,15 +1,23 @@
 body {
     // background-color: var(--color-body-background);
-    background-image: linear-gradient(to bottom, var(--color-primary), var(--color-primary-dark-1));
+    // background-image: linear-gradient(to bottom, var(--color-primary), var(--color-primary-dark-1));
+    background-color: #FFF;
     background-size: cover;
     background-repeat: no-repeat;
     min-height: 100vh;
+
+    position: relative;
 }
 
 .container {
-    max-width: 62.6rem;
-    margin: 2.75rem auto;
-    background-color: var(--color-container-background);
-    box-shadow: var(--shadow-dark);
+    max-width: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+    background-color: var(--color-grey-light-1);
+    box-shadow: var(--shadow-light);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 

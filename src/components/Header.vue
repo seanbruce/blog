@@ -16,67 +16,107 @@
         </div>
         <nav class="header__items--right">
             <router-link to="/" class="header__nav__button active" tag="div">
-                <span class="button__text">主页</span>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                     <title>home</title>
                     <path d="M18.672 11h-1.672v6c0 0.445-0.194 1-1 1h-4v-6h-4v6h-4c-0.806 0-1-0.555-1-1v-6h-1.672c-0.598 0-0.47-0.324-0.060-0.748l8.024-8.032c0.195-0.202 0.451-0.302 0.708-0.312 0.257 0.010 0.513 0.109 0.708 0.312l8.023 8.031c0.411 0.425 0.539 0.749-0.059 0.749z"></path>
                 </svg>
+                <span class="button__text">主页</span>
             </router-link>
 
 
-            <router-link to="/cart" class="header__nav__button" tag="div">
-                <span class="button__text">购物车</span>
+            <router-link to="/cart" class="header__nav__button" tag="div" v-if="auth">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                     <title>shopping-cart</title>
                     <path d="M13 17c0 1.104 0.894 2 2 2 1.104 0 2-0.896 2-2 0-1.106-0.896-2-2-2-1.106 0-2 0.894-2 2zM3 17c0 1.104 0.895 2 2 2 1.103 0 2-0.896 2-2 0-1.106-0.897-2-2-2-1.105 0-2 0.894-2 2zM6.547 12.172l11.068-3.162c0.211-0.061 0.385-0.289 0.385-0.51v-5.5h-14v-1.6c0-0.22-0.181-0.4-0.399-0.4h-3.202c-0.219 0-0.399 0.18-0.399 0.4v1.6h2l1.91 8.957 0.090 0.943v1.649c0 0.219 0.18 0.4 0.4 0.4h13.2c0.22 0 0.4-0.182 0.4-0.4v-1.549h-11.248c-1.15 0-1.174-0.551-0.205-0.828z"></path>
                 </svg>
                 <span class="cart__notification">3</span>
+                <span class="button__text">购物车</span>               
             </router-link>
 
 
             
-            <router-link to="/signup" class="header__nav__button" tag="div">
-                <span class="button__text">注册</span>
+            <div class="header__nav__button" v-if="!auth" @click="toggleSignup">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                     <title>user</title>
                     <path d="M7.725 2.146c-1.016 0.756-1.289 1.953-1.239 2.59 0.064 0.779 0.222 1.793 0.222 1.793s-0.313 0.17-0.313 0.854c0.109 1.717 0.683 0.976 0.801 1.729 0.284 1.814 0.933 1.491 0.933 2.481 0 1.649-0.68 2.42-2.803 3.334-2.13 0.918-4.326 2.073-4.326 4.073v1h18v-1c0-2-2.197-3.155-4.328-4.072-2.123-0.914-2.801-1.684-2.801-3.334 0-0.99 0.647-0.667 0.932-2.481 0.119-0.753 0.692-0.012 0.803-1.729 0-0.684-0.314-0.854-0.314-0.854s0.158-1.014 0.221-1.793c0.065-0.817-0.398-2.561-2.3-3.096-0.333-0.34-0.558-0.881 0.466-1.424-2.24-0.105-2.761 1.067-3.954 1.929z"></path>
                 </svg>
-            </router-link>
+                <span class="button__text">注册</span> 
+            </div>
             
 
-            <router-link to="/login" class="header__nav__button" tag="div">
-                <span class="button__text">登陆</span>
+            <router-link to="/login" class="header__nav__button" tag="div" v-if="!auth">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                     <title>login</title>
                     <path d="M14 10l-6-5v3h-7v4h7v3l6-5zM17 17h-8v2h8c1.1 0 2-0.9 2-2v-14c0-1.1-0.9-2-2-2h-8v2h8v14z"></path>
                 </svg>
+                <span class="button__text">登陆</span>     
             </router-link>
 
 
-            <router-link to="/portfolio" class="header__nav__button" tag="div">
+            <!-- <router-link to="/portfolio" class="header__nav__button" tag="div" v-if="auth">
                 <span class="button__text">个人资料</span>
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                    <title>dots-three-vertical</title>
-                    <path d="M10.001 7.8c-1.215 0-2.201 0.985-2.201 2.2s0.986 2.2 2.201 2.2c1.215 0 2.199-0.985 2.199-2.2s-0.984-2.2-2.199-2.2zM10.001 5.2c1.215 0 2.199-0.986 2.199-2.2s-0.984-2.2-2.199-2.2c-1.215 0-2.201 0.985-2.201 2.2s0.986 2.2 2.201 2.2zM10.001 14.8c-1.215 0-2.201 0.985-2.201 2.2s0.986 2.2 2.201 2.2c1.215 0 2.199-0.985 2.199-2.2s-0.984-2.2-2.199-2.2z"></path>
-                </svg>
-            </router-link>
+            </router-link> -->
 
 
-            <div class="header__nav__button">
+            <!-- <div class="header__nav__button" v-if="auth">
                 <span class="button__text">退出账号</span>
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                     <title>log-out</title>
                     <path d="M19 10l-6-5v3h-7v4h7v3l6-5zM3 3h8v-2h-8c-1.1 0-2 0.9-2 2v14c0 1.1 0.9 2 2 2h8v-2h-8v-14z"></path>
                 </svg>
+            </div> -->
+
+            <div class="header__nav__button user-setting" v-if="auth">
+                <img src="../assets/images/elon-musk.jpg" alt="">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                    <title>dots-three-vertical</title>
+                    <path d="M10.001 7.8c-1.215 0-2.201 0.985-2.201 2.2s0.986 2.2 2.201 2.2c1.215 0 2.199-0.985 2.199-2.2s-0.984-2.2-2.199-2.2zM10.001 5.2c1.215 0 2.199-0.986 2.199-2.2s-0.984-2.2-2.199-2.2c-1.215 0-2.201 0.985-2.201 2.2s0.986 2.2 2.201 2.2zM10.001 14.8c-1.215 0-2.201 0.985-2.201 2.2s0.986 2.2 2.201 2.2c1.215 0 2.199-0.985 2.199-2.2s-0.984-2.2-2.199-2.2z"></path>
+                </svg>
+                <ul class="drop-down">
+                    <router-link to="/portfolio" class="" tag="li" v-if="auth">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                            <title>user</title>
+                            <path d="M7.725 2.146c-1.016 0.756-1.289 1.953-1.239 2.59 0.064 0.779 0.222 1.793 0.222 1.793s-0.313 0.17-0.313 0.854c0.109 1.717 0.683 0.976 0.801 1.729 0.284 1.814 0.933 1.491 0.933 2.481 0 1.649-0.68 2.42-2.803 3.334-2.13 0.918-4.326 2.073-4.326 4.073v1h18v-1c0-2-2.197-3.155-4.328-4.072-2.123-0.914-2.801-1.684-2.801-3.334 0-0.99 0.647-0.667 0.932-2.481 0.119-0.753 0.692-0.012 0.803-1.729 0-0.684-0.314-0.854-0.314-0.854s0.158-1.014 0.221-1.793c0.065-0.817-0.398-2.561-2.3-3.096-0.333-0.34-0.558-0.881 0.466-1.424-2.24-0.105-2.761 1.067-3.954 1.929z"></path>
+                        </svg>
+                        <span class="button__text">个人资料</span>                            
+                    </router-link>
+                    <li @click="onLogOut">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                            <title>log-out</title>
+                            <path d="M19 10l-6-5v3h-7v4h7v3l6-5zM3 3h8v-2h-8c-1.1 0-2 0.9-2 2v14c0 1.1 0.9 2 2 2h8v-2h-8v-14z"></path>
+                        </svg>
+                        <span class="button__text">退出账号</span>                        
+                    </li>
+                </ul>
             </div>
         </nav>
     </header>
 </template>
 
+<script>
+export default {
+    computed: {
+        auth() {
+            return this.$store.getters.isAuthenticated
+        }
+    },
+    methods: {
+        onLogOut() {
+            this.$store.dispatch('logOut')
+        },
+        toggleSignup() {
+            console.log('signup clicked')
+            this.$emit('toggleSignup')
+        }
+    }
+}
+</script>
 
 
 <style lang="scss" scoped>
     header {
+        background-color: #fff;
+
         box-shadow: var(--shadow-light);
         margin-bottom: 1.5rem;
         height: 3.7rem;
@@ -91,7 +131,7 @@
                 }
             }
             &[class$="middle"] {
-                flex: 0 0 40%;
+                flex: 0 0 20%;
 
                 display: flex;
                 justify-content: center;
@@ -111,7 +151,7 @@
                         border: none;
                         padding: 0.35rem 1rem;
                         border-radius: 100px;
-                        width: 90%;
+                        width: 80%;
                         margin-right: -1.5rem;
                         transition: all .2s;
 
@@ -126,7 +166,7 @@
                         }
                     }
 
-                    &__input:focus + .header__search__button {
+                    &__input:focus + &__button {
                         background-color: var(--color-grey-light-3);
                     }
 
@@ -158,14 +198,14 @@
                 .header__nav__button {
                     display: flex;
                     align-items: center;
-                    padding: 0 0.5rem;
+                    padding: 0 1rem;
                     cursor: pointer;
 
                     position: relative;
 
                     
                     &.active {
-                        background-color: var(--color-grey-light-3);
+                        background-color: var(--color-grey-light-1);
                     }
 
 
@@ -187,16 +227,16 @@
                        
                     }
 
-                    &:last-child {
-                        padding: 0 0 0 0.5rem;
-                    }
+                    // &:last-child {
+                    //     padding: 0 0 0 1rem;
+                    // }
 
                     &:not(:last-child) {
                         margin-right: 2px;
                     }
 
                     &:hover {
-                        background-color: var(--color-grey-light-2);
+                        // background-color: var(--color-grey-light-2);
                         //  .button__text {
                         //     color: #FFF;
                         //     transform: scale(1.2);
@@ -210,7 +250,7 @@
                     .button__text {
                         position: relative;
                         font-size: 0.8rem;
-                        margin-right: 3px;
+                        margin-left: 3px;
                         color: var(--color-grey-dark-1);
                         // transition: all 1ms .4s;
                     }
@@ -229,7 +269,7 @@
 
                         position: absolute;
                         top: 1rem;
-                        right: 0;
+                        left: 1.2rem;
 
                     }
 
@@ -243,6 +283,84 @@
                     }
                     &:last-child {
                         margin-right: 1.5rem;
+                    }
+
+                    &.user-setting {
+                        
+                        
+                        &::before {
+                            display: none;
+                        }
+
+                        position: relative;
+                        img {
+                            width: 1.8em;
+                            height: 1.8rem;
+                            border-radius: 50%;
+                            margin-right: 4px;
+                        }
+                        .drop-down {
+                            box-shadow: var(--shadow-paper-like);
+                            background-color: #FFF;
+
+                            list-style: none;
+                            position: absolute;
+                            top: 3.7rem;
+                            left: 0;
+                            width: 120%;
+                            // border: solid 1px black;
+
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-around;
+                            align-items: stretch;
+
+                            li {
+                                display: none;
+                                padding: 0.2rem 0.5rem;
+                                span {
+                                    font-size: 0.8rem;
+                                }
+                                opacity: 0;
+                                transform-origin: top right;
+                                @for $i from 1 through 2 {
+                                    &:nth-child(#{$i}) {
+                                        animation: {
+                                            name: menu;
+                                            duration: 300ms;
+                                            delay: (150ms * $i) - 300;
+                                            timing-function: ease-in-out;
+                                            fill-mode: forwards;
+                                        }
+                                    }
+                                }
+                                &:not(:last-child) {
+                                    border-bottom: solid 1px #AAA;
+                                }
+                                &:hover {
+                                    background-color: var(--color-grey-light-3);
+                                }
+                            }
+
+                            @keyframes menu {
+                                0% {
+                                    opacity: 0;
+                                    transform: translateY(-0.5rem) scale(0.3);
+                                }
+                                100% {
+                                    opacity: 1;
+                                    transform: translateY(0) scale(1);
+
+                                }
+                            }
+                        }
+                        &:hover {
+                            li {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            }
+                        }   
                     }
                 }
             }

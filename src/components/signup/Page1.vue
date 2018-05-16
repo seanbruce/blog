@@ -3,20 +3,32 @@
         <div class="page1__content">
             <label for="email" class="email">
                 <span>账号</span>
-                <input type="email" id="email" placeholder="账号请使用邮箱">
+                <input type="email" id="email" placeholder="账号请使用邮箱" v-model.lazy="userInfo.email">
             </label>
             <label for="password" class="password">
                 <span>密码</span>
-                <input type="password" id="password">
+                <input type="password" id="password" v-model.lazy="userInfo.password">
             </label>
             <label for="confirmPassword" class="confirm-password">
                 <span>确认密码</span>
-                <input type="password" id="confirmPassword">
+                <input type="password" id="confirmPassword" v-model.lazy="userInfo.confirmPassword">
             </label>
-            <button type="submit" class="next">确认</button>
+            <button @click.prevent="next" class="next">确认</button>
         </div>
     </form>
 </template>
+
+<script>
+export default {
+  methods: {
+      next() {
+          this.$emit('changeActivePage', 'appSignupPage2')
+      }
+  },
+  props: ['userInfo'],
+}
+</script>
+
 
 <style lang="scss" scoped>
     .page1 {
@@ -54,7 +66,7 @@
                     font-size: 0.8rem;
                     padding: 0 0.5rem;
                     &#email {
-                        letter-spacing: 0.1rem;
+                        letter-spacing: 0.05rem;
                     }
                     &#password,
                     &#confirmPassword {

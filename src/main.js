@@ -3,20 +3,30 @@ import Vue from 'vue'
 import App from './App.vue'
 
 import VueRouter from 'vue-router'
-import {routes} from './routes'
+import router from './routes'
+import store from './store'
 
+import axios from 'axios'
 
-Vue.use(VueRouter)
+axios.defaults.baseURL = 'https://axios-65b04.firebaseio.com'
 
-const router = new VueRouter({
-  mode: 'history',
-  routes,
+const requestInterceptor = axios.interceptors.request.use( config => {
+  console.log('request: ',config)
+  return config
 })
 
+const responseInterceptor = axios.interceptors.response.use( res => {
+  console.log('response: ',res)
+  return res
+})
+
+axios.interceptors.request.eject(requestInterceptor)
+axios.interceptors.response.eject(responseInterceptor)
 
 
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })
