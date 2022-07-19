@@ -1,0 +1,68 @@
+---
+meta:
+  title: Using external store with React
+  description: The right way to connect your external store with React.
+  date: 2022-07-15
+  headers:
+  Cache-Control: no-cache
+---
+
+# Using external store with React
+
+> Disclaimer: If you already know what the built-in hook `useSyncExternalStore` do and what problem it solved, You should probably pass this blog.
+
+Summary: Whether you are maintaining an React library witch implementing an 'external store'
+or writing one that is only used in your own projects, you should use the
+official `use-sync-external-store` shim package.
+
+Most of the time, as a product developer, I don't need to write my `external store` to store data. I just store them in `useState` and `useReducer` hooks and pass data
+around through props or context. But there are libraries heavily used in our project that internally store data outside of React, for example, tanstack-query and zustand.
+Those libraries often internally separate their core logic from the UI render layer(React, Preact, Svelte, etc) into a different module and combine them with a so-called 'adaptor'.
+
+The purpose of using an 'adaptor' is to make UI render aware of the existence of the `external store` and react to its data change. Pre to React 18, There is a prevalence pattern
+being used to implement the 'adaptor'. I simplify it as follows:
+
+```javascript
+import { useRef, useReducer, useLayoutEffect, useEffect } from "react";
+import createStore from "external-store";
+
+// The store has some properties:
+// {
+//   subscribe,
+//   getState,
+//   setState,
+// }
+
+function useStore({ store, selector }) {
+  const [, forceRender] = useReducer(() => {}, {});
+  const stateRef = useRef();
+
+  if (storeRef.current === undefined) {
+    stateRef.current = selector(store.getState());
+  }
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      const newState = selector(this.storeRef.current.getState());
+      if (Object.is(newState, stateRef.current)) {
+        stateRef.current = newState;
+        forceRender();
+      }
+    };
+
+    const unsubscribe = store.subscribe(handleUpdate);
+
+    return () => unsubscribe();
+  }, [selector, store]);
+
+  return stateRef.current;
+}
+```
+
+Here is what happened in the hook:
+
+- Pass the `store` to the hooks, it'll give the `stateRef` a value for the first render using `getState` method.
+- Set up a subscription in `effect`, every time `handleUpdate` is called, it will get the newest selected state by calling `getState` and `selector` functions again and
+  comparing it with the old state, if it's not equal to previously stored value, it updates `stateRef.current` and forces React to re-render.
+- The `effect` will be cleared and re-run if the store or selector changed.
+- The hook returns the value of `stateRef.current ` as result.

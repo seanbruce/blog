@@ -2,7 +2,7 @@ import type { LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData, Link } from "@remix-run/react";
 import BlogLink from "~/components/blog-link";
-import * as blog1 from "./posts/test-blog.mdx";
+import * as blog1 from "./posts/using-external-store-with-react.mdx";
 import * as blog2 from "./posts/another-blog.mdx";
 import { format } from "date-fns";
 
