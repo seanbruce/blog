@@ -1,6 +1,6 @@
 ---
 meta:
-  title: Using external store with React
+  title: How to use external store in React
   description: The right way to connect your external store with React.
   date: 2022-07-15
   headers:
@@ -11,16 +11,29 @@ meta:
 
 > Disclaimer: If you already know what the built-in hook `useSyncExternalStore` do and what problem it solved, You should probably pass this blog.
 
-Summary: Whether you are maintaining an React library witch implementing an 'external store'
+[idea: use use-sync-external-store]
+Summary: Whether you are maintaining an React library which implement an 'external store'
 or writing one that is only used in your own projects, you should use the
 official `use-sync-external-store` shim package.
 
+[idea: when external store is needed]
 Most of the time, as a product developer, I don't need to write my `external store` to store data. I just store them in `useState` and `useReducer` hooks and pass data
 around through props or context. But there are libraries heavily used in our project that internally store data outside of React, for example, tanstack-query and zustand.
 Those libraries often internally separate their core logic from the UI render layer(React, Preact, Svelte, etc) into a different module and combine them with a so-called 'adaptor'.
 
+[rewrite]
+I'm mainly a product devloper and I only have a few 'global state' in my project, so, most of the time I don't need to write my state management solution. when I do need global
+state I will choose `zustand` or, if the change of the state is not frequent, I just put them in `useState` and `useReducer` hooks in the root component and pass them down using React Context.
+But there are libraries used in our project that internally store data outside of React(aka an 'external store'), for example, [react-query](https://tanstack.com/query/v4) and [zustand](https://github.com/pmndrs/zustand).
+Both libraries separate their core logic from React code into a different module and combine them with a 'adaptor', which makes those libraries framework agnostic possible.
+All the interesting thing I gonna talk about happened in the 'adaptor'.
+
+[idea: what does an adaptor do]
 The purpose of using an 'adaptor' is to make UI render aware of the existence of the `external store` and react to its data change. Pre to React 18, There is a prevalence pattern
 being used to implement the 'adaptor'. I simplify it as follows:
+
+[rewrite]
+Basiclly, adaptor informs React about the updates of data and give the newest value to render. Pre to React 18, there was a prevalence pattern used to implement the adaptor, I simplify it as follow:
 
 ```javascript
 import { useRef, useReducer, useLayoutEffect, useEffect } from "react";
@@ -65,4 +78,4 @@ Here is what happened in the hook:
 - Set up a subscription in `effect`, every time `handleUpdate` is called, it will get the newest selected state by calling `getState` and `selector` functions again and
   comparing it with the old state, if it's not equal to previously stored value, it updates `stateRef.current` and forces React to re-render.
 - The `effect` will be cleared and re-run if the store or selector changed.
-- The hook returns the value of `stateRef.current ` as result.
+- The hook returns the value of `stateRef.current` as result.
