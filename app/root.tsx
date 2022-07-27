@@ -18,6 +18,8 @@ import {
 } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import highlightDefaultStylesheetUrl from "./styles/highlight.default.css";
+import highlightDarkStylesheetUrl from "./styles/highlight.dark.css";
 import baseStylesheetUrl from "./styles/base.css";
 import { getUser } from "./session.server";
 import Header from "./components/header";
@@ -34,6 +36,8 @@ import Footer from "./components/footer";
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: tailwindStylesheetUrl },
+    { rel: "stylesheet", href: highlightDefaultStylesheetUrl },
+    { rel: "stylesheet", href: highlightDarkStylesheetUrl },
     { rel: "stylesheet", href: baseStylesheetUrl },
     {
       rel: "preload",

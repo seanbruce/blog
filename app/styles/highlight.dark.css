@@ -1,0 +1,53 @@
+html.dark pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+}
+html.dark code.hljs {
+  padding: 3px 5px;
+}
+html.dark .hljs {
+  color: #ddd;
+  background: #444;
+}
+html.dark .hljs-keyword,
+html.dark .hljs-link,
+html.dark .hljs-literal,
+html.dark .hljs-section,
+html.dark .hljs-selector-tag {
+  color: #fff;
+}
+html.dark .hljs-addition,
+html.dark .hljs-attribute,
+html.dark .hljs-built_in,
+html.dark .hljs-bullet,
+html.dark .hljs-name,
+html.dark .hljs-string,
+html.dark .hljs-symbol,
+html.dark .hljs-template-tag,
+html.dark .hljs-template-variable,
+html.dark .hljs-title,
+html.dark .hljs-type,
+html.dark .hljs-variable {
+  color: #d88;
+}
+html.dark .hljs-comment,
+html.dark .hljs-deletion,
+html.dark .hljs-meta,
+html.dark .hljs-quote {
+  color: #777;
+}
+html.dark .hljs-doctag,
+html.dark .hljs-keyword,
+html.dark .hljs-literal,
+html.dark .hljs-name,
+html.dark .hljs-section,
+html.dark .hljs-selector-tag,
+html.dark .hljs-strong,
+html.dark .hljs-title,
+html.dark .hljs-type {
+  font-weight: 700;
+}
+html.dark .hljs-emphasis {
+  font-style: italic;
+}

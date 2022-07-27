@@ -3,7 +3,6 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import BlogLink from "~/components/blog-link";
 import * as blog1 from "./posts/how-to-use-external-store-in-react.mdx";
-import * as blog2 from "./posts/another-blog.mdx";
 import { format } from "date-fns";
 
 type MdxImport = {
@@ -27,7 +26,7 @@ function blogFromModule(mod: MdxImport): {
 type LoaderData = ReturnType<typeof blogFromModule>[];
 
 export const loader: LoaderFunction = async () => {
-  return json<LoaderData>([blogFromModule(blog1), blogFromModule(blog2)]);
+  return json<LoaderData>([blogFromModule(blog1)]);
 };
 
 export default function Index() {

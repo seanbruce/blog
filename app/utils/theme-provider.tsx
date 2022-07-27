@@ -60,7 +60,6 @@ function ThemeProvider({
       return;
     }
     if (!theme) return;
-    console.log("call api");
     persistThemeRef.current.submit(
       { theme },
       { action: "api/set-theme", method: "post" }

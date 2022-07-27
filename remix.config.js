@@ -4,4 +4,14 @@
 module.exports = {
   cacheDirectory: "./node_modules/.cache/remix",
   ignoredRouteFiles: ["**/.*", "**/*.css", "**/*.test.{js,jsx,ts,tsx}"],
+  mdx: async (filename) => {
+    console.log(filename);
+    const [rehypeHighlight] = await Promise.all([
+      import("rehype-highlight").then((mod) => mod.default),
+    ]);
+
+    return {
+      rehypePlugins: [rehypeHighlight],
+    };
+  },
 };

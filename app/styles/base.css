@@ -16,4 +16,70 @@
 
 * {
   -webkit-tap-highlight-color: transparent;
+  user-select: initial;
+}
+
+/* style for mdx content */
+
+h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.3rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+code {
+  color: #0369a1;
+  font-weight: bold;
+}
+
+.dark code {
+  color: #7dd3fc;
+}
+
+a {
+  color: #0369a1;
+}
+
+.dark a {
+  color: #7dd3fc;
+}
+
+blockquote {
+  padding-left: 1.4em;
+  position: relative;
+  background-color: #e5e7eb;
+  padding: 1.4em 1.6em;
+  margin-bottom: 1.6em;
+  transition: all linear 300ms;
+}
+
+.dark blockquote {
+  background-color: #4b5563;
+}
+
+blockquote:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0.4em;
+  height: 100%;
+  background-color: #9ca3af;
+}
+
+blockquote p {
+  margin-bottom: 0;
+}
+
+pre {
+  margin-bottom: 1.6em;
+}
+
+ul {
+  padding-left: 0.5em;
+  margin-bottom: 1.6em;
 }

@@ -16,16 +16,19 @@ Summary: Whether you are maintaining an React library which implement an 'extern
 or writing one that is only used in your own projects, you should use the
 official `use-sync-external-store` shim package.
 
+[idea: what is external store]
+First, it has to be clear what is an 'external state' before we talk about 'external store'. An 'external state' is a state that is not managed by React.
+Generally speaking, if you store data neither in `useState` nor `useReducer` hooks in your React component, it is an 'external state'. An 'external store'
+is just an 'external state' with some extra logic attach to it.
+
 [idea: when external store is needed]
 Most of the time, as a product developer, I don't need to write my `external store` to store data. I just store them in `useState` and `useReducer` hooks and pass data
 around through props or context. But there are libraries heavily used in our project that internally store data outside of React, for example, tanstack-query and zustand.
 Those libraries often internally separate their core logic from the UI render layer(React, Preact, Svelte, etc) into a different module and combine them with a so-called 'adaptor'.
 
 [rewrite]
-I'm mainly a product devloper and I only have a few 'global state' in my project, so, most of the time I don't need to write my state management solution. when I do need global
-state I will choose `zustand` or, if the change of the state is not frequent, I just put them in `useState` and `useReducer` hooks in the root component and pass them down using React Context.
-But there are libraries used in our project that internally store data outside of React(aka an 'external store'), for example, [react-query](https://tanstack.com/query/v4) and [zustand](https://github.com/pmndrs/zustand).
-Both libraries separate their core logic from React code into a different module and combine them with a 'adaptor', which makes those libraries framework agnostic possible.
+I'm mainly a product devloper and I store my data using `useState` or `useReducer` most of the time. However, there are libraries used in my project that internally store data outside of React,
+for example, [react-query](https://tanstack.com/query/v4) and [zustand](https://github.com/pmndrs/zustand). Both libraries separate their core logic from React code into a different module and talk to each other with a 'adaptor'.
 All the interesting thing I gonna talk about happened in the 'adaptor'.
 
 [idea: what does an adaptor do]
@@ -33,7 +36,8 @@ The purpose of using an 'adaptor' is to make UI render aware of the existence of
 being used to implement the 'adaptor'. I simplify it as follows:
 
 [rewrite]
-Basiclly, adaptor informs React about the updates of data and give the newest value to render. Pre to React 18, there was a prevalence pattern used to implement the adaptor, I simplify it as follow:
+The 'adaptor' is a module that implements the logic to connect the 'external store' with the UI render layer. In the context of React, there is a pervasive pattern used to implement the 'adaptor'.
+I simplify it as follows:
 
 ```javascript
 import { useRef, useReducer, useLayoutEffect, useEffect } from "react";
@@ -72,10 +76,16 @@ function useStore({ store, selector }) {
 }
 ```
 
-Here is what happened in the hook:
+> Don't copy this code. use `use-sync-external-store` shim.
 
-- Pass the `store` to the hooks, it'll give the `stateRef` a value for the first render using `getState` method.
-- Set up a subscription in `effect`, every time `handleUpdate` is called, it will get the newest selected state by calling `getState` and `selector` functions again and
-  comparing it with the old state, if it's not equal to previously stored value, it updates `stateRef.current` and forces React to re-render.
-- The `effect` will be cleared and re-run if the store or selector changed.
-- The hook returns the value of `stateRef.current` as result.
+- 'external store' have to be able to be subscribed to by the 'adaptor'.
+- 'adaptor' could subscribe to whole or part of the stored data.
+- if the data changed, the 'adaptor' should trigger a re-render.
+
+It's quite easy to follow the code above once the pattern is recognized,
+but a few details need to be taken into account. Well, to name a few,
+'what if data in store changed after rendering but before subscribtion?', 'what will happended if the rendering is asyncrhonous?' or 'what else should be considered if doing SSR'?
+
+I strongly suggest you to read the [official useSyncExternalStore documentation](https://reactjs.org/docs/hooks-reference.html#usesyncexternalstore)
+and [source code](https://github.com/facebook/react/blob/2c7dea73659da283fa433f5fd657a5a29797fd67/packages/use-sync-external-store/src/useSyncExternalStoreShim.js) of the shim package.
+It's basically implemented the pattern described above with all the 'gocha' solved for pre React 18 version, and switch to built-in `useSyncExternalStore` hook otherwise.

@@ -58,7 +58,7 @@ function DarkModeSwitch() {
 export default function Header() {
   return (
     <header className="mb-8 flex items-center	">
-      <h1 className="text-3xl font-extrabold">Sean's Blog</h1>
+      <h1 className="mb-0 text-3xl font-extrabold">Sean's Blog</h1>
       <DarkModeSwitch />
     </header>
   );
