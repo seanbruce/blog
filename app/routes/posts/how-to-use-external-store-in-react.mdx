@@ -22,25 +22,16 @@ Generally speaking, if you store data neither in `useState` nor `useReducer` hoo
 is just an 'external state' with some extra logic attach to it.
 
 [idea: when external store is needed]
-Most of the time, as a product developer, I don't need to write my `external store` to store data. I just store them in `useState` and `useReducer` hooks and pass data
-around through props or context. But there are libraries heavily used in our project that internally store data outside of React, for example, tanstack-query and zustand.
-Those libraries often internally separate their core logic from the UI render layer(React, Preact, Svelte, etc) into a different module and combine them with a so-called 'adaptor'.
-
-[rewrite]
 I'm mainly a product devloper and I store my data using `useState` or `useReducer` most of the time. However, there are libraries used in my project that internally store data outside of React,
 for example, [react-query](https://tanstack.com/query/v4) and [zustand](https://github.com/pmndrs/zustand). Both libraries separate their core logic from React code into a different module and talk to each other with a 'adaptor'.
 All the interesting thing I gonna talk about happened in the 'adaptor'.
 
 [idea: what does an adaptor do]
-The purpose of using an 'adaptor' is to make UI render aware of the existence of the `external store` and react to its data change. Pre to React 18, There is a prevalence pattern
-being used to implement the 'adaptor'. I simplify it as follows:
-
-[rewrite]
-The 'adaptor' is a module that implements the logic to connect the 'external store' with the UI render layer. In the context of React, there is a pervasive pattern used to implement the 'adaptor'.
+The 'adaptor' is a module that implements the logic to connect the 'external store' with the UI render layer. In the context of React, in many popular library, there is a pervasive pattern used to implement the 'adaptor'.
 I simplify it as follows:
 
 ```javascript
-import { useRef, useReducer, useLayoutEffect, useEffect } from "react";
+import { useRef, useReducer, useEffect } from "react";
 import createStore from "external-store";
 
 // The store has some properties:
@@ -78,9 +69,12 @@ function useStore({ store, selector }) {
 
 > Don't copy this code. use `use-sync-external-store` shim.
 
+I was excited when first time I saw this pattern when reading source code of [react-query](https://tanstack.com/query/v4) and [zustand](https://github.com/pmndrs/zustand). And I thought that I just found a smart way of doing
+performance optimization. couldn't be more wrong - find the missing piece when I write my own 'external store'.
+
 - 'external store' have to be able to be subscribed to by the 'adaptor'.
 - 'adaptor' could subscribe to whole or part of the stored data.
-- if the data changed, the 'adaptor' should trigger a re-render.
+- In `handleUpdate` callback, if the data change detected, the 'adaptor' should trigger a re-render.
 
 It's quite easy to follow the code above once the pattern is recognized,
 but a few details need to be taken into account. Well, to name a few,
