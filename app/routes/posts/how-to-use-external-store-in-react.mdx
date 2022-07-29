@@ -9,7 +9,7 @@ meta:
 
 # Using external store with React
 
-> Disclaimer: As a hint, if you already know what the built-in hook `useSyncExternalStore` do and what problem it solved, You should probably pass this blog.
+> Disclaimer: As a hint, if you already know what the built-in hook `useSyncExternalStore` does and what problem it can solve, You should probably pass this blog.
 
 Summary: Whether you are maintaining an React library which implement an 'external store'
 or writing one that is only used in your own projects, you should use the
@@ -17,10 +17,10 @@ official `use-sync-external-store` shim package.
 
 First, it has to be clear what is an 'external state' before we talk about 'external store'. An 'external state' is a state that is not managed by React.
 Generally speaking, if you store data neither in `useState` nor `useReducer` hooks in your React component, it is an 'external state'. An 'external store'
-is just an 'external state' with some extra logic attach to it.
+is just an 'external state' with some extra logic attached to it.
 
 I'm mainly a product devloper and I store my data using `useState` or `useReducer` most of the time. However, there are libraries used in my project that internally store data outside of React,
-for example, [react-query](https://tanstack.com/query/v4) and [zustand](https://github.com/pmndrs/zustand). Both libraries separate their core logic from React code into a different module and talk to each other with a 'adaptor'.
+for example, [react-query](https://tanstack.com/query/v4) and [zustand](https://github.com/pmndrs/zustand). Both libraries separate their core logic from React code into a different module and talk to each other with an 'adaptor'.
 And all the interesting thing I gonna talk about happened in the 'adaptor'.
 
 The 'adaptor' is a module that implements the logic to connect the 'external store' with the UI render layer. In the context of React, in many popular library, there is a pervasive pattern used to implement the 'adaptor'.
@@ -65,14 +65,14 @@ function useStore({ store, selector }) {
 
 > Don't copy this code. use `use-sync-external-store` shim.
 
-I was excited when first time I saw this pattern when reading source code of [react-query](https://tanstack.com/query/v4) and [zustand](https://github.com/pmndrs/zustand). I thought that I just found a smart way of doing
-performance optimization. It couldn't be more wrong and I realized that later when I figure out the missing part when I wrote my own 'external store'.
+I was excited the first time I saw this pattern when reading source code of [react-query](https://tanstack.com/query/v4) and [zustand](https://github.com/pmndrs/zustand). I thought that I just found a smart way of doing
+performance optimization. It couldn't be more wrong. I didn't realize that until later I wrote my own 'external store'.
 
 This is what happended in 'adaptor':
 
-- 'External store' have to be able to be subscribed to by the 'adaptor'.
+- 'External store' has to be able to be subscribed to by the 'adaptor'.
 - 'Adaptor' could subscribe to whole or part of the stored data.
-- In `handleUpdate` callback, if the data change detected, It should trigger a re-render.
+- In `handleUpdate` callback, if the data change is detected, It should trigger a re-render.
 
 It's quite easy to follow the code above once the pattern is recognized,
 but a few details need to be taken into account. To name a few,
@@ -81,3 +81,5 @@ but a few details need to be taken into account. To name a few,
 If you want to dive deeper, I strongly suggest you to read the [official useSyncExternalStore documentation](https://reactjs.org/docs/hooks-reference.html#usesyncexternalstore)
 and [source code](https://github.com/facebook/react/blob/2c7dea73659da283fa433f5fd657a5a29797fd67/packages/use-sync-external-store/src/useSyncExternalStoreShim.js) of the shim package.
 It's basically implemented the pattern described above with all the 'gocha' solved for pre React 18 version, and switch to built-in `useSyncExternalStore` hook otherwise.
+
+That'all, I hope you find this blog useful.
