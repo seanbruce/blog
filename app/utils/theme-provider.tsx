@@ -69,8 +69,6 @@ function ThemeProvider({
   React.useEffect(() => {
     const mediaQuery = window.matchMedia(prefersLightMQ);
     const handleChange = () => {
-      console.log("them changed");
-      console.log(mediaQuery.matches);
       setTheme(mediaQuery.matches ? Theme.LIGHT : Theme.DARK);
     };
     mediaQuery.addEventListener("change", handleChange);
